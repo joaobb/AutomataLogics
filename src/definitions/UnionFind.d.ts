@@ -1,5 +1,6 @@
 declare module "union-find" {
   type SetIdentifier = number;
+
   export default class UnionFind {
     constructor(numVertices: number);
 
