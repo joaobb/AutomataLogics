@@ -1,99 +1,99 @@
 // src: Hopcroft:2001 - Figure 4.12, equivalent to figure 4.8
 const hopcraft_figs_4_12_EQ = {
-  nodes: [
+  "nodes": [
     {
-      id: "node-10",
-      isInitial: true,
-      isAcceptance: false,
-      label: "a,e",
+      "id": "q9",
+      "isInitial": true,
+      "isAcceptance": false,
+      "label": "q9"
     },
     {
-      id: "node-11",
-      isInitial: false,
-      isAcceptance: false,
-      label: "g",
+      "id": "q10",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q10"
     },
     {
-      id: "node-12",
-      isInitial: false,
-      isAcceptance: false,
-      label: "b,h",
+      "id": "q11",
+      "isInitial": false,
+      "isAcceptance": true,
+      "label": "q11"
     },
     {
-      id: "node-13",
-      isInitial: false,
-      isAcceptance: false,
-      label: "d,f",
+      "id": "q12",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q12"
     },
     {
-      id: "node-14",
-      isInitial: false,
-      isAcceptance: true,
-      label: "c",
-    },
+      "id": "q13",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q13"
+    }
   ],
-  edges: [
+  "edges": [
     {
-      id: "edge-0.69287600351735821669156213733",
-      source: "node-11",
-      target: "node-10",
-      label: "1",
+      "id": "edge-0.139303261817375731682737048499",
+      "source": "q9",
+      "target": "q10",
+      "label": "0"
     },
     {
-      id: "edge-0.90767503144179051669156219317",
-      source: "node-11",
-      target: "node-11",
-      label: "0",
+      "id": "edge-0.50496932638502261682737051349",
+      "source": "q10",
+      "target": "q11",
+      "label": "1"
     },
     {
-      id: "edge-0.74955307267316031669156223327",
-      source: "node-13",
-      target: "node-11",
-      label: "1",
+      "id": "edge-0.64284813706246351682737054749",
+      "source": "q11",
+      "target": "q11",
+      "label": "1"
     },
     {
-      id: "edge-0.65779638283616591669156229005",
-      source: "node-10",
-      target: "node-13",
-      label: "1",
+      "id": "edge-0.439708630213694551682737058829",
+      "source": "q9",
+      "target": "q12",
+      "label": "1"
     },
     {
-      id: "edge-0.5128283001529251669156232753",
-      source: "node-13",
-      target: "node-14",
-      label: "0",
+      "id": "edge-0.82942211643311281682737064018",
+      "source": "q12",
+      "target": "q13",
+      "label": "1"
     },
     {
-      id: "edge-0.46230368197664861669156236342",
-      source: "node-14",
-      target: "node-14",
-      label: "1",
+      "id": "edge-0.58968164873761682737066633",
+      "source": "q13",
+      "target": "q13",
+      "label": "0"
     },
     {
-      id: "edge-0.63090650205108761669156242775",
-      source: "node-14",
-      target: "node-10",
-      label: "0",
+      "id": "edge-0.37231853545806161682737075035",
+      "source": "q13",
+      "target": "q9",
+      "label": "1"
     },
     {
-      id: "edge-0.71159438879471581669156247175",
-      source: "node-12",
-      target: "node-14",
-      label: "1",
+      "id": "edge-0.070820299170167631682737080816",
+      "source": "q12",
+      "target": "q11",
+      "label": "0"
     },
     {
-      id: "edge-0.15513219689944391669156251111",
-      source: "node-12",
-      target: "node-11",
-      label: "0",
+      "id": "edge-0.63536285601371681682737085900",
+      "source": "q11",
+      "target": "q9",
+      "label": "0"
     },
     {
-      id: "edge-0.68398871948755931669156254922",
-      source: "node-10",
-      target: "node-12",
-      label: "0",
-    },
-  ],
+      "id": "edge-0.9129062114261931682737092232",
+      "source": "q10",
+      "target": "q13",
+      "label": "0"
+    }
+  ]
 };
 
 export { hopcraft_figs_4_12_EQ };

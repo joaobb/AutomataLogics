@@ -1,154 +1,154 @@
 // src: Hopcroft:2001 - Figure 4.8
 
 const hopcraft_figs_4_12 = {
-  nodes: [
+  "nodes": [
     {
-      id: "node-1",
-      isInitial: true,
-      isAcceptance: false,
-      label: "a",
+      "id": "q1",
+      "isInitial": true,
+      "isAcceptance": false,
+      "label": "q1"
     },
     {
-      id: "node-2",
-      isInitial: false,
-      isAcceptance: false,
-      label: "b",
+      "id": "q2",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q2"
     },
     {
-      id: "node-3",
-      isInitial: false,
-      isAcceptance: true,
-      label: "c",
+      "id": "q3",
+      "isInitial": false,
+      "isAcceptance": true,
+      "label": "q3"
     },
     {
-      id: "node-4",
-      isInitial: false,
-      isAcceptance: false,
-      label: "d",
+      "id": "q4",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q4"
     },
     {
-      id: "node-5",
-      isInitial: false,
-      isAcceptance: false,
-      label: "e",
+      "id": "q5",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q5"
     },
     {
-      id: "node-6",
-      isInitial: false,
-      isAcceptance: false,
-      label: "f",
+      "id": "q6",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q6"
     },
     {
-      id: "node-7",
-      isInitial: false,
-      isAcceptance: false,
-      label: "g",
+      "id": "q7",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q7"
     },
     {
-      id: "node-8",
-      isInitial: false,
-      isAcceptance: false,
-      label: "h",
-    },
+      "id": "q8",
+      "isInitial": false,
+      "isAcceptance": false,
+      "label": "q8"
+    }
   ],
-  edges: [
+  "edges": [
     {
-      id: "edge-0.82281972940230811669087718624",
-      source: "node-1",
-      target: "node-2",
-      label: "0",
+      "id": "edge-0.162715317499224851682736567538",
+      "source": "q1",
+      "target": "q2",
+      "label": "0"
     },
     {
-      id: "edge-0.175497913898115641669087723691",
-      source: "node-1",
-      target: "node-6",
-      label: "1",
+      "id": "edge-0.71668789845383631682736573237",
+      "source": "q1",
+      "target": "q6",
+      "label": "1"
     },
     {
-      id: "edge-0.46088356324837321669087728114",
-      source: "node-2",
-      target: "node-3",
-      label: "1",
+      "id": "edge-0.6532132895224451682736578972",
+      "source": "q2",
+      "target": "q3",
+      "label": "1"
     },
     {
-      id: "edge-0.67831444214827741669087731644",
-      source: "node-2",
-      target: "node-7",
-      label: "0",
+      "id": "edge-0.241457960364865661682736581956",
+      "source": "q3",
+      "target": "q3",
+      "label": "1"
     },
     {
-      id: "edge-0.58372727651520771669087736413",
-      source: "node-3",
-      target: "node-3",
-      label: "1",
+      "id": "edge-0.77373234787196951682736584804",
+      "source": "q3",
+      "target": "q1",
+      "label": "0"
     },
     {
-      id: "edge-0.62807614728922091669087740280",
-      source: "node-3",
-      target: "node-8",
-      label: "0",
+      "id": "edge-0.130919796532754871682736590038",
+      "source": "q4",
+      "target": "q3",
+      "label": "0"
     },
     {
-      id: "edge-0.121976633846266221669087748321",
-      source: "node-4",
-      target: "node-3",
-      label: "0",
+      "id": "edge-0.76469995282915091682736593956",
+      "source": "q4",
+      "target": "q7",
+      "label": "1"
     },
     {
-      id: "edge-0.91880981101533751669087751707",
-      source: "node-4",
-      target: "node-7",
-      label: "1",
+      "id": "edge-0.02285276707204621682736600753",
+      "source": "q5",
+      "target": "q6",
+      "label": "1"
     },
     {
-      id: "edge-0.75608196365680171669087759304",
-      source: "node-5",
-      target: "node-1",
-      label: "0",
+      "id": "edge-0.978756217557781682736604087",
+      "source": "q5",
+      "target": "q8",
+      "label": "0"
     },
     {
-      id: "edge-0.077469733275534081669087763642",
-      source: "node-5",
-      target: "node-6",
-      label: "1",
+      "id": "edge-0.21698412711398651682736609303",
+      "source": "q7",
+      "target": "q5",
+      "label": "1"
     },
     {
-      id: "edge-0.050378903161462541669087767039",
-      source: "node-6",
-      target: "node-7",
-      label: "1",
+      "id": "edge-0.09290788825302921682736614269",
+      "source": "q7",
+      "target": "q7",
+      "label": "0"
     },
     {
-      id: "edge-0.466004179836366771669087781088",
-      source: "node-6",
-      target: "node-3",
-      label: "0",
+      "id": "edge-0.097259071017805621682736619255",
+      "source": "q6",
+      "target": "q3",
+      "label": "0"
     },
     {
-      id: "edge-0.87829333924207531669087787573",
-      source: "node-7",
-      target: "node-7",
-      label: "0",
+      "id": "edge-0.48962503041025721682736624189",
+      "source": "q6",
+      "target": "q7",
+      "label": "1"
     },
     {
-      id: "edge-0.82303491475244521669087792504",
-      source: "node-7",
-      target: "node-5",
-      label: "1",
+      "id": "edge-0.63549134464544351682736644920",
+      "source": "q8",
+      "target": "q3",
+      "label": "1"
     },
     {
-      id: "edge-0.83279584690124381669087798506",
-      source: "node-8",
-      target: "node-3",
-      label: "1",
+      "id": "edge-0.98885883522265041682736651653",
+      "source": "q8",
+      "target": "q7",
+      "label": "0"
     },
     {
-      id: "edge-0.15642692872628251669087808642",
-      source: "node-8",
-      target: "node-7",
-      label: "0",
-    },
-  ],
+      "id": "edge-0.30760873165314751682736892911",
+      "source": "q2",
+      "target": "q7",
+      "label": "0"
+    }
+  ]
 };
 
 export { hopcraft_figs_4_12 };
