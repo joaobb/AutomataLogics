@@ -3,19 +3,15 @@ import { parseGraphToAutomata } from "./parsers/graphToAutomata";
 
 import { lawrance2Epslon } from "./tests/graphs/lawrance";
 
-import { tutorialsPoint } from "./tests/graphs/tutorialsPoint";
-import { tutorialsPoint_EQ } from "./tests/graphs/tutorialsPoint_EQ";
-
-import { hopcraft_figs_4_12 } from "./tests/graphs/hopcraft_figs_4_12";
-import { hopcraft_figs_4_12_EQ } from "./tests/graphs/hopcraft_figs_4_12_EQ";
-
-import { nesoAcademy1 } from "./tests/graphs/nesoAcademy1";
-import { nesoAcademy1_EQ } from "./tests/graphs/nesoAcademy1_EQ";
+import hopcroft from "./tests/graphs/hopcroft_figs_4_8";
+import nesoAcademy from "./tests/graphs/nesoAcademy";
+import sundeep from "./tests/graphs/sundeep";
 
 import { testEquivalenceHCK } from "./handlers/CheckEquivalenceHCK";
+import { testEquivalence } from "./handlers/CheckEquivalence";
 
-const parsedAutomataA1Graph = parseGraphToAutomata(hopcraft_figs_4_12);
-const parsedAutomataA2Graph = parseGraphToAutomata(hopcraft_figs_4_12_EQ);
+const parsedAutomataA1Graph = parseGraphToAutomata(sundeep.a1);
+const parsedAutomataA2Graph = parseGraphToAutomata(hopcroft.a1);
 
 const automata1 = new Automata(
   parsedAutomataA1Graph.states,

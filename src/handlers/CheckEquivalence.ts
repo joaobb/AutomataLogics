@@ -1,7 +1,5 @@
 import { Alphabet, IAutomata, StateId } from "../definitions/Automata";
 import { setsAreEqual } from "../utils/set";
-// @ts-ignore
-import ArrayKeyedMap from "array-keyed-map";
 
 type TestEquivalence = {
   equivalent: boolean;
@@ -30,7 +28,6 @@ function testEquivalence(a1: IAutomata, a2: IAutomata): TestEquivalence {
   }
 
   // Solver queue
-  const transitionsCheckTable = new ArrayKeyedMap();
   const resolutionQueue: ResolutionItem[] = [
     { a1: a1.initialState, a2: a2.initialState },
   ];
@@ -60,8 +57,6 @@ function testEquivalence(a1: IAutomata, a2: IAutomata): TestEquivalence {
       const a2Target = a2StepTransitions[key].map((state) => state.target);
 
       // const stepValidityCheck = isStepValid(a1Target, a2Target);
-
-
     });
 
     console.log(a1StepTransitions, a2StepTransitions);

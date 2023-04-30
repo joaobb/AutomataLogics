@@ -1,7 +1,7 @@
 // @ts-ignore
 import UnionFind from "union-find";
 
-type SetIdentifier = number;
+export type SetIdentifier = number;
 
 class ExtendedUnionFind {
   unionFind: UnionFind;

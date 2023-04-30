@@ -1,5 +1,5 @@
 // src: Hopcroft:2001 - Figure 4.12, equivalent to figure 4.8
-const hopcraft_figs_4_12_EQ = {
+const hopcroft_figs_4_12 = {
   "nodes": [
     {
       "id": "q9",
@@ -96,4 +96,4 @@ const hopcraft_figs_4_12_EQ = {
   ]
 };
 
-export { hopcraft_figs_4_12_EQ };
+export { hopcroft_figs_4_12 };
