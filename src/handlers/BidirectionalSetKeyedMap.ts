@@ -13,7 +13,7 @@ class BidirectionalSetKeyedMap<K, V> {
     return this.setKeyedMap.get(key);
   }
 
-  getByValue(value: V) {
+  getByValue(value: V): K[] {
     return this.valueMap[value];
   }
 
