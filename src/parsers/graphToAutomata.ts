@@ -20,30 +20,38 @@ type Graph = {
   }[];
 };
 
-function parseGraphToAutomata(graph: Graph) {
+function parseGraphToAutomata(graph: Graph, stateIdPrefix?: string) {
   let states: State[] = [];
   let initialState: StateId = "";
   let acceptanceStates: StateId[] = [];
   let alphabet: InputSymbol[] = [];
   const transitions: Transitions = {};
 
-  graph.nodes.forEach((node) => {
-    if (node.isInitial) initialState = node.id;
-    if (node.isAcceptance) acceptanceStates.push(node.id);
+  const stateIdMapping: { [stateId: StateId]: StateId } = {};
 
-    states.push({ id: node.id, label: node.label });
+  graph.nodes.forEach((node) => {
+    const parsedStateId = stateIdPrefix ? stateIdPrefix + node.id : node.id;
+    stateIdMapping[node.id] = parsedStateId;
+
+    if (node.isInitial) initialState = parsedStateId;
+    if (node.isAcceptance) acceptanceStates.push(parsedStateId);
+
+    states.push({ id: parsedStateId, label: node.label });
   });
 
   graph.edges.forEach((edge) => {
     if (!alphabet.includes(edge.label)) alphabet.push(edge.label);
 
-    if (!transitions[edge.source]) transitions[edge.source] = {};
-    if (!transitions[edge.source][edge.label])
-      transitions[edge.source][edge.label] = [];
+    const sourceStateId = stateIdMapping[edge.source];
+    const targetStateId = stateIdMapping[edge.target];
 
-    transitions[edge.source][edge.label].push({
+    if (!transitions[sourceStateId]) transitions[sourceStateId] = {};
+    if (!transitions[sourceStateId][edge.label])
+      transitions[sourceStateId][edge.label] = [];
+
+    transitions[sourceStateId][edge.label].push({
       id: edge.id,
-      target: edge.target,
+      target: targetStateId,
     });
   });
 

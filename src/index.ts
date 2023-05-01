@@ -6,12 +6,12 @@ import { lawrance2Epslon } from "./tests/graphs/lawrance";
 import hopcroft from "./tests/graphs/hopcroft_figs_4_8";
 import nesoAcademy from "./tests/graphs/nesoAcademy";
 import sundeep from "./tests/graphs/sundeep";
+import ufmgExample25 from "./tests/graphs/ufmg-example-25";
 
 import { testEquivalenceHCK } from "./handlers/CheckEquivalenceHCK";
-import { testEquivalence } from "./handlers/CheckEquivalence";
 
-const parsedAutomataA1Graph = parseGraphToAutomata(sundeep.a1);
-const parsedAutomataA2Graph = parseGraphToAutomata(hopcroft.a1);
+const parsedAutomataA1Graph = parseGraphToAutomata(hopcroft.a2, "a1-");
+const parsedAutomataA2Graph = parseGraphToAutomata(hopcroft.a1, "a2-");
 
 const automata1 = new Automata(
   parsedAutomataA1Graph.states,
