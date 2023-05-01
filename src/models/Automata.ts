@@ -62,7 +62,9 @@ class Automata implements IAutomata {
     ];
 
     if (this.hasEpslonTransitions) {
-      firstStep.push(...this._getEpsilonClosure(this.initialState));
+      firstStep.push(
+        ...Automata.getEpsilonClosure(this.initialState, this.transitions)
+      );
     }
 
     return word.split("").reduce(
@@ -73,20 +75,14 @@ class Automata implements IAutomata {
         const currentStep: Transition[] = [];
 
         lastStep.forEach((transition) => {
-          const newStep = this.transitions[transition.target][symbol];
-
-          if (newStep) {
-            if (this.hasEpslonTransitions) {
-              const extraTransitions =
-                this._handlePossibleEpsilonTransitions(newStep);
-
-              if (extraTransitions.length) {
-                newStep.push(...extraTransitions);
-              }
-            }
-
-            currentStep.push(...newStep);
-          }
+          currentStep.push(
+            ...Automata.step(
+              transition.target,
+              symbol,
+              this.transitions,
+              this.hasEpslonTransitions
+            )
+          );
         });
 
         return [...path, uniqBy(currentStep, "id")];
@@ -95,10 +91,37 @@ class Automata implements IAutomata {
     );
   }
 
-  private _handlePossibleEpsilonTransitions(transitions: Transition[]) {
-    const statesWithEpsilonTransitions = transitions.reduce(
+  static step(
+    stateId: StateId,
+    symbol: InputSymbol,
+    transitions: Transitions,
+    hasEpsilonTransitions: Boolean
+  ) {
+    const target = transitions[stateId][symbol];
+
+    if (target) {
+      if (hasEpsilonTransitions) {
+        const epsilonStep = Automata.handlePossibleEpsilonTransitions(
+          target,
+          transitions
+        );
+
+        if (epsilonStep.length) {
+          target.push(...epsilonStep);
+        }
+      }
+    }
+
+    return target || [];
+  }
+
+  static handlePossibleEpsilonTransitions(
+    currentTransitions: Transition[],
+    automataTransitions: Transitions
+  ) {
+    const statesWithEpsilonTransitions = currentTransitions.reduce(
       (states: StateId[], transition) => {
-        if (this.transitions[transition.target].hasOwnProperty(EPSILON_KEY))
+        if (automataTransitions[transition.target].hasOwnProperty(EPSILON_KEY))
           states.push(transition.target);
 
         return states;
@@ -110,24 +133,33 @@ class Automata implements IAutomata {
 
     if (statesWithEpsilonTransitions.length) {
       epsilonClosure.push(
-        ...this._getEpsilonClosure(statesWithEpsilonTransitions)
+        ...Automata.getEpsilonClosure(
+          statesWithEpsilonTransitions,
+          automataTransitions
+        )
       );
     }
 
     return epsilonClosure;
   }
 
-  private _getEpsilonClosure(states: StateId | StateId[]): any[] {
+  static getEpsilonClosure(
+    states: StateId | StateId[],
+    transitions: Transitions
+  ): any[] {
     if (!Array.isArray(states)) states = [states];
 
     return states
       .map((state) => {
-        const epsilonStep = this.transitions[state][EPSILON_KEY];
+        const epsilonStep = transitions[state][EPSILON_KEY];
         if (!epsilonStep) return [];
 
         return [
           ...epsilonStep,
-          ...this._getEpsilonClosure(epsilonStep.map((step) => step.target)),
+          ...Automata.getEpsilonClosure(
+            epsilonStep.map((step) => step.target),
+            transitions
+          ),
         ];
       })
       .flat();

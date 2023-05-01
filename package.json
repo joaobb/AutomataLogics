@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/lodash.uniq": "^4.5.7",
     "@types/lodash.uniqby": "^4.7.7",
     "@types/node": "^18.15.11",
     "nodemon": "^2.0.22",
@@ -17,6 +18,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "lodash.uniq": "^4.5.0",
     "lodash.uniqby": "^4.7.0",
     "union-find": "^1.0.2"
   }

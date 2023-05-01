@@ -1,14 +1,16 @@
+import getUniqueElements from "lodash.uniq";
+
+import { EPSILON_KEY } from "../constants/automata";
 import {
   Alphabet,
   IAutomata,
   InputSymbol,
   StateId,
+  Transitions,
 } from "../definitions/Automata";
 import { setsAreEqual } from "../utils/set";
-import { ExtendedUnionFind } from "./ExtendedUnionFind";
-import { BidirectionalSetKeyedMap } from "./BidirectionalSetKeyedMap";
 import { StatesUnionFind } from "./StatesUnionFind";
-import { EPSILON_KEY } from "../constants/automata";
+import Automata from "../models/Automata";
 
 type TestEquivalence = {
   equivalent: boolean;
@@ -29,21 +31,23 @@ function clearAlphabet(alphabet: Alphabet) {
 }
 
 function sameAlphabet(a1Alphabet: Alphabet, a2Alphabet: Alphabet) {
-  return setsAreEqual(
-    new Set(clearAlphabet(a1Alphabet)),
-    new Set(clearAlphabet(a2Alphabet))
-  );
+  return setsAreEqual(new Set(a1Alphabet), new Set(a2Alphabet));
 }
 
 function testEquivalenceHCK(a1: IAutomata, a2: IAutomata): TestEquivalence {
-  if (!sameAlphabet(a1.alphabet, a2.alphabet)) {
+  if (!sameAlphabet(clearAlphabet(a1.alphabet), clearAlphabet(a2.alphabet))) {
     return {
       equivalent: false,
       reason: { rejector: "Alphabets are different" },
     };
   }
 
-  // Checks if both states on the step are either acceptance or not
+  const hasEpsilonSymbol = [...a1.alphabet, ...a2.alphabet].includes(
+    EPSILON_KEY
+  );
+
+  // Checks if both states on the step are either acceptance or not.
+  // ε(p) === ε(q) : ε(p) = 1 ⇔ ∃p′ ∈ p : ε(p′) = 1
   function checkIsValidStep(pStateId: StateId[], qStateId: StateId[]) {
     // Is a valid group if both or none are acceptance states
 
@@ -60,44 +64,61 @@ function testEquivalenceHCK(a1: IAutomata, a2: IAutomata): TestEquivalence {
     };
   }
 
-  const stateUnionFind = new StatesUnionFind(
+  const statesUnionFind = new StatesUnionFind(
     a1.states.length + a2.states.length
   );
 
-  const unionFind = new ExtendedUnionFind(a1.states.length + a2.states.length);
-  const unionFindStateIdMap = new BidirectionalSetKeyedMap<StateId, number>();
+  function getTargetsByStateGroup(
+    stateGroup: StateId[],
+    symbol: InputSymbol
+  ): StateId[] {
+    const result: StateId[] = [];
 
-  function getTargetsByStateGroup(stateGroup: StateId[], symbol: InputSymbol) {
-    return (
-      stateGroup
-        .map((state) =>
-          transitionsUnion[state][symbol]?.map(
-            (transition) => transition.target
-          )
+    stateGroup.forEach((state) =>
+      result.push(
+        ...Automata.step(state, symbol, transitionsUnion, hasEpsilonSymbol).map(
+          (transition) => transition.target
         )
-        .flat() || []
-    ).filter(Boolean);
+      )
+    );
+
+    return getUniqueElements(result.filter(Boolean));
   }
 
-  const alphabet = a1.alphabet;
+  const alphabet = clearAlphabet(a1.alphabet);
+
   const acceptanceStatesUnion = [
     ...a1.acceptanceStates,
     ...a2.acceptanceStates,
   ];
-  // δ(p, a) = δi(p, a) for p ∈ Qi, i ∈ {1, 2}.
-  const transitionsUnion = { ...a1.transitions, ...a2.transitions };
 
-  const a1InitialStateAsArray = [a1.initialState];
-  const a2InitialStateAsArray = [a2.initialState];
+  // δ(p, a) = δi(p, a) for p ∈ Qi, i ∈ {1, 2}.
+  const transitionsUnion: Transitions = {
+    ...a1.transitions,
+    ...a2.transitions,
+  };
+
+  const a1InitialStateAsArray: StateId[] = [
+    a1.initialState,
+    ...Automata.getEpsilonClosure(a1.initialState, a1.transitions).map(
+      (transition) => transition.target
+    ),
+  ];
+  const a2InitialStateAsArray: StateId[] = [
+    a2.initialState,
+    ...Automata.getEpsilonClosure(a2.initialState, a2.transitions).map(
+      (transition) => transition.target
+    ),
+  ];
 
   // ---- START OF HKe ALGORITHM
 
-  stateUnionFind.make(a1InitialStateAsArray);
-  stateUnionFind.make(a2InitialStateAsArray);
+  statesUnionFind.make(a1InitialStateAsArray);
+  statesUnionFind.make(a2InitialStateAsArray);
 
   const resolutionStack: ResolutionItem[] = [];
 
-  stateUnionFind.union(a1InitialStateAsArray, a2InitialStateAsArray);
+  statesUnionFind.union(a1InitialStateAsArray, a2InitialStateAsArray);
 
   resolutionStack.push({
     a1: a1InitialStateAsArray,
@@ -119,18 +140,21 @@ function testEquivalenceHCK(a1: IAutomata, a2: IAutomata): TestEquivalence {
     }
 
     alphabet.forEach((symbol) => {
-      console.log(symbol, stateGroupP, stateGroupQ);
-
-      const pTargetsUFIdentifier = stateUnionFind.find(
+      const pTargetsUFIdentifier = statesUnionFind.find(
         getTargetsByStateGroup(stateGroupP, symbol)
       );
 
-      const qTargetsUFIdentifier = stateUnionFind.find(
+      const qTargetsUFIdentifier = statesUnionFind.find(
         getTargetsByStateGroup(stateGroupQ, symbol)
       );
 
-      if (pTargetsUFIdentifier !== qTargetsUFIdentifier) {
-        stateUnionFind.union(pTargetsUFIdentifier, qTargetsUFIdentifier);
+      if (
+        !setsAreEqual(
+          new Set(pTargetsUFIdentifier),
+          new Set(qTargetsUFIdentifier)
+        )
+      ) {
+        statesUnionFind.union(pTargetsUFIdentifier, qTargetsUFIdentifier);
         resolutionStack.push({
           a1: pTargetsUFIdentifier,
           a2: qTargetsUFIdentifier,
