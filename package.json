@@ -1,9 +1,12 @@
 {
   "name": "automata-logics-v2",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start:dev": "ts-node src/index.ts"
+    "start:dev": "ts-node src/sample.ts",
+    "tsc": "tsc --declaration",
+    "build": "tsc --declaration"
   },
   "keywords": [],
   "author": "",

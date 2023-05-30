@@ -31,20 +31,20 @@ function testEquivalence(a1: IAutomata, a2: IAutomata): TestEquivalence {
   const resolutionQueue: ResolutionItem[] = [
     { a1: a1.initialState, a2: a2.initialState },
   ];
-  let witness = "";
+  // let witness = "";
 
-  const alphabet = a1.alphabet;
+  // const alphabet = a1.alphabet;
 
   // Checks if both states on the step are either acceptance or not
-  function isStepValid(a1StateId: StateId, a2StateId: StateId) {
-    // Is a valid group if both or none are acceptance states
-    const a1Accepts = a1.acceptanceStates.includes(a1StateId);
-    const a2Accepts = a2.acceptanceStates.includes(a2StateId);
-    return {
-      isValid: a1Accepts === a2Accepts,
-      rejector: !a1Accepts ? "a1" : "a2",
-    };
-  }
+  // function isStepValid(a1StateId: StateId, a2StateId: StateId) {
+  //   // Is a valid group if both or none are acceptance states
+  //   const a1Accepts = a1.acceptanceStates.includes(a1StateId);
+  //   const a2Accepts = a2.acceptanceStates.includes(a2StateId);
+  //   return {
+  //     isValid: a1Accepts === a2Accepts,
+  //     rejector: !a1Accepts ? "a1" : "a2",
+  //   };
+  // }
 
   while (resolutionQueue.length) {
     const step: ResolutionItem = resolutionQueue.shift()!;
@@ -52,12 +52,12 @@ function testEquivalence(a1: IAutomata, a2: IAutomata): TestEquivalence {
     const a1StepTransitions = a1.transitions[step.a1];
     const a2StepTransitions = a2.transitions[step.a2];
 
-    alphabet.forEach((key) => {
-      const a1Target = a1StepTransitions[key].map((state) => state.target);
-      const a2Target = a2StepTransitions[key].map((state) => state.target);
-
-      // const stepValidityCheck = isStepValid(a1Target, a2Target);
-    });
+    // alphabet.forEach((key) => {
+    //   const a1Target = a1StepTransitions[key].map((state) => state.target);
+    //   const a2Target = a2StepTransitions[key].map((state) => state.target);
+    //
+    //   const stepValidityCheck = isStepValid(a1Target, a2Target);
+    // });
 
     console.log(a1StepTransitions, a2StepTransitions);
   }
