@@ -10,6 +10,11 @@ import {
 } from "../definitions/Automata";
 import { EPSILON_KEY } from "../constants/automata";
 
+type Path = {
+  key: InputSymbol;
+  transitions: Transition[];
+}[];
+
 class Automata implements IAutomata {
   states: State[];
   alphabet: InputSymbol[];
@@ -42,12 +47,14 @@ class Automata implements IAutomata {
         reason: `Unrecognized symbol(s) on word: ${invalidSymbols.join(", ")}`,
       };
 
-    const steps: Transition[][] = this._walk(word);
+    const steps: Path = this._walk(word);
 
     return {
       accepts: steps
         .at(-1)
-        ?.some((step) => this.acceptanceStates.includes(step.target)),
+        ?.transitions.some((step) =>
+          this.acceptanceStates.includes(step.target)
+        ),
       path: steps,
     };
   }
@@ -56,7 +63,7 @@ class Automata implements IAutomata {
     return this.alphabet.includes(EPSILON_KEY);
   }
 
-  private _walk(word: string) {
+  private _walk(word: string): Path {
     const firstStep: Transition[] = [
       { id: undefined, target: this.initialState },
     ];
@@ -68,8 +75,8 @@ class Automata implements IAutomata {
     }
 
     return word.split("").reduce(
-      (path: Transition[][], symbol) => {
-        const lastStep = path.at(-1);
+      (path: Path, symbol: InputSymbol) => {
+        const lastStep = path.at(-1)?.transitions;
         if (!lastStep) return path;
 
         const currentStep: Transition[] = [];
@@ -85,9 +92,12 @@ class Automata implements IAutomata {
           );
         });
 
-        return [...path, uniqBy(currentStep, "id")];
+        return [
+          ...path,
+          { key: symbol, transitions: uniqBy(currentStep, "id") },
+        ];
       },
-      [firstStep]
+      [{ key: EPSILON_KEY, transitions: firstStep }]
     );
   }
 
