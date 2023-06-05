@@ -36,7 +36,9 @@ var Automata = /** @class */ (function () {
         var steps = this._walk(word);
         return {
             accepts: (_a = steps
-                .at(-1)) === null || _a === void 0 ? void 0 : _a.some(function (step) { return _this.acceptanceStates.includes(step.target); }),
+                .at(-1)) === null || _a === void 0 ? void 0 : _a.transitions.some(function (step) {
+                return _this.acceptanceStates.includes(step.target);
+            }),
             path: steps,
         };
     };
@@ -56,15 +58,18 @@ var Automata = /** @class */ (function () {
             firstStep.push.apply(firstStep, Automata.getEpsilonClosure(this.initialState, this.transitions));
         }
         return word.split("").reduce(function (path, symbol) {
-            var lastStep = path.at(-1);
+            var _a;
+            var lastStep = (_a = path.at(-1)) === null || _a === void 0 ? void 0 : _a.transitions;
             if (!lastStep)
                 return path;
             var currentStep = [];
             lastStep.forEach(function (transition) {
                 currentStep.push.apply(currentStep, Automata.step(transition.target, symbol, _this.transitions, _this.hasEpslonTransitions));
             });
-            return __spreadArray(__spreadArray([], path, true), [(0, lodash_uniqby_1.default)(currentStep, "id")], false);
-        }, [firstStep]);
+            return __spreadArray(__spreadArray([], path, true), [
+                { key: symbol, transitions: (0, lodash_uniqby_1.default)(currentStep, "id") },
+            ], false);
+        }, [{ key: automata_1.EPSILON_KEY, transitions: firstStep }]);
     };
     Automata.step = function (stateId, symbol, transitions, hasEpsilonTransitions) {
         var target = transitions[stateId][symbol];

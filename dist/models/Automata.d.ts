@@ -1,4 +1,8 @@
 import { IAutomata, InputSymbol, State, StateId, Transition, Transitions } from "../definitions/Automata";
+type Path = {
+    key: InputSymbol;
+    transitions: Transition[];
+}[];
 declare class Automata implements IAutomata {
     states: State[];
     alphabet: InputSymbol[];
@@ -12,7 +16,7 @@ declare class Automata implements IAutomata {
         path?: undefined;
     } | {
         accepts: boolean | undefined;
-        path: Transition[][];
+        path: Path;
         reason?: undefined;
     };
     get hasEpslonTransitions(): boolean;
