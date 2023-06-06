@@ -42,6 +42,13 @@ function testEquivalenceHCK(a1: IAutomata, a2: IAutomata): TestEquivalence {
     };
   }
 
+  if (!a1.initialState || !a2.initialState) {
+    return {
+      equivalent: false,
+      reason: { rejector: "Initial state not set" },
+    };
+  }
+
   const hasEpsilonSymbol = [...a1.alphabet, ...a2.alphabet].includes(
     EPSILON_KEY
   );
