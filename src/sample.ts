@@ -1,13 +1,13 @@
 import { Automata, parseGraphToAutomata, testEquivalenceHCK } from "./index";
 
 import hopcroft from "./tests/graphs/hopcroft_figs_4_8";
-// import { lawrance2Epslon } from "./tests/graphs/lawrance";
+// import { lawrance2Epsilon } from "./tests/graphs/lawrance";
 // import nesoAcademy from "./tests/graphs/nesoAcademy";
 // import sundeep from "./tests/graphs/sundeep";
 // import ufmgExample25 from "./tests/graphs/ufmg-example-25";
 
-const parsedAutomataA1Graph = parseGraphToAutomata(hopcroft.a2, "a1-");
-const parsedAutomataA2Graph = parseGraphToAutomata(hopcroft.a1, "a2-");
+const parsedAutomataA1Graph = parseGraphToAutomata(hopcroft.a1, "a1-");
+const parsedAutomataA2Graph = parseGraphToAutomata(hopcroft.a2, "a2-");
 
 const automata1 = new Automata(
   parsedAutomataA1Graph.states,

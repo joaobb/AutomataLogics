@@ -29,11 +29,11 @@ class Automata implements IAutomata {
     initialState: StateId,
     acceptanceStates: StateId[]
   ) {
-    this.states = states;
-    this.alphabet = alphabet;
+    this.states = states || [];
+    this.alphabet = alphabet || [];
     this.initialState = initialState;
-    this.acceptanceStates = acceptanceStates;
-    this.transitions = transitions;
+    this.acceptanceStates = acceptanceStates || [];
+    this.transitions = transitions || [];
   }
 
   testWord(word: string) {
@@ -45,7 +45,13 @@ class Automata implements IAutomata {
       return {
         accepts: false,
         reason: `Unrecognized symbol(s) on word: ${invalidSymbols.join(", ")}`,
+        path: [],
       };
+
+    if (!this.initialState)
+      return { accepts: false, reason: "No initial state set", path: [] };
+    if (!this.acceptanceStates.length)
+      return { accepts: false, reason: "No acceptance states set", path: [] };
 
     const steps: Path = this._walk(word);
 
@@ -59,7 +65,7 @@ class Automata implements IAutomata {
     };
   }
 
-  get hasEpslonTransitions() {
+  get hasEpsilonTransitions() {
     return this.alphabet.includes(EPSILON_KEY);
   }
 
@@ -68,7 +74,7 @@ class Automata implements IAutomata {
       { id: undefined, target: this.initialState },
     ];
 
-    if (this.hasEpslonTransitions) {
+    if (this.hasEpsilonTransitions) {
       firstStep.push(
         ...Automata.getEpsilonClosure(this.initialState, this.transitions)
       );
@@ -87,7 +93,7 @@ class Automata implements IAutomata {
               transition.target,
               symbol,
               this.transitions,
-              this.hasEpslonTransitions
+              this.hasEpsilonTransitions
             )
           );
         });
@@ -131,7 +137,7 @@ class Automata implements IAutomata {
   ) {
     const statesWithEpsilonTransitions = currentTransitions.reduce(
       (states: StateId[], transition) => {
-        if (automataTransitions[transition.target].hasOwnProperty(EPSILON_KEY))
+        if (automataTransitions[transition.target]?.hasOwnProperty(EPSILON_KEY))
           states.push(transition.target);
 
         return states;
@@ -161,7 +167,7 @@ class Automata implements IAutomata {
 
     return states
       .map((state) => {
-        const epsilonStep = transitions[state][EPSILON_KEY];
+        const epsilonStep = transitions[state]?.[EPSILON_KEY];
         if (!epsilonStep) return [];
 
         return [

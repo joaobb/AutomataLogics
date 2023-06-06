@@ -1,6 +1,6 @@
 // src: http://www2.lawrence.edu/fast/GREGGJ/CMSC515/chapt01/Nondeterminism.html
 
-const lawrance2Epslon = {
+const lawrance2Epsilon = {
   nodes: [
     {
       id: "node-1",
@@ -163,4 +163,4 @@ const lawrance2Epslon = {
   ],
 };
 
-export { lawrance2Epslon };
+export { lawrance2Epsilon };
