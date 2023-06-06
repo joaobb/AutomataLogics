@@ -1,8 +1,8 @@
 "use strict";
 // src: http://www2.lawrence.edu/fast/GREGGJ/CMSC515/chapt01/Nondeterminism.html
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.lawrance2Epslon = void 0;
-var lawrance2Epslon = {
+exports.lawrance2Epsilon = void 0;
+var lawrance2Epsilon = {
     nodes: [
         {
             id: "node-1",
@@ -164,4 +164,4 @@ var lawrance2Epslon = {
         },
     ],
 };
-exports.lawrance2Epslon = lawrance2Epslon;
+exports.lawrance2Epsilon = lawrance2Epsilon;

@@ -1,4 +1,4 @@
-declare const lawrance2Epslon: {
+declare const lawrance2Epsilon: {
     nodes: {
         id: string;
         isInitial: boolean;
@@ -12,4 +12,4 @@ declare const lawrance2Epslon: {
         label: string;
     }[];
 };
-export { lawrance2Epslon };
+export { lawrance2Epsilon };

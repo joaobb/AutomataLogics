@@ -16,11 +16,11 @@ var lodash_uniqby_1 = __importDefault(require("lodash.uniqby"));
 var automata_1 = require("../constants/automata");
 var Automata = /** @class */ (function () {
     function Automata(states, alphabet, transitions, initialState, acceptanceStates) {
-        this.states = states;
-        this.alphabet = alphabet;
+        this.states = states || [];
+        this.alphabet = alphabet || [];
         this.initialState = initialState;
-        this.acceptanceStates = acceptanceStates;
-        this.transitions = transitions;
+        this.acceptanceStates = acceptanceStates || [];
+        this.transitions = transitions || [];
     }
     Automata.prototype.testWord = function (word) {
         var _this = this;
@@ -32,7 +32,12 @@ var Automata = /** @class */ (function () {
             return {
                 accepts: false,
                 reason: "Unrecognized symbol(s) on word: ".concat(invalidSymbols.join(", ")),
+                path: [],
             };
+        if (!this.initialState)
+            return { accepts: false, reason: "No initial state set", path: [] };
+        if (!this.acceptanceStates.length)
+            return { accepts: false, reason: "No acceptance states set", path: [] };
         var steps = this._walk(word);
         return {
             accepts: (_a = steps
@@ -42,7 +47,7 @@ var Automata = /** @class */ (function () {
             path: steps,
         };
     };
-    Object.defineProperty(Automata.prototype, "hasEpslonTransitions", {
+    Object.defineProperty(Automata.prototype, "hasEpsilonTransitions", {
         get: function () {
             return this.alphabet.includes(automata_1.EPSILON_KEY);
         },
@@ -54,7 +59,7 @@ var Automata = /** @class */ (function () {
         var firstStep = [
             { id: undefined, target: this.initialState },
         ];
-        if (this.hasEpslonTransitions) {
+        if (this.hasEpsilonTransitions) {
             firstStep.push.apply(firstStep, Automata.getEpsilonClosure(this.initialState, this.transitions));
         }
         return word.split("").reduce(function (path, symbol) {
@@ -64,7 +69,7 @@ var Automata = /** @class */ (function () {
                 return path;
             var currentStep = [];
             lastStep.forEach(function (transition) {
-                currentStep.push.apply(currentStep, Automata.step(transition.target, symbol, _this.transitions, _this.hasEpslonTransitions));
+                currentStep.push.apply(currentStep, Automata.step(transition.target, symbol, _this.transitions, _this.hasEpsilonTransitions));
             });
             return __spreadArray(__spreadArray([], path, true), [
                 { key: symbol, transitions: (0, lodash_uniqby_1.default)(currentStep, "id") },
@@ -85,7 +90,8 @@ var Automata = /** @class */ (function () {
     };
     Automata.handlePossibleEpsilonTransitions = function (currentTransitions, automataTransitions) {
         var statesWithEpsilonTransitions = currentTransitions.reduce(function (states, transition) {
-            if (automataTransitions[transition.target].hasOwnProperty(automata_1.EPSILON_KEY))
+            var _a;
+            if ((_a = automataTransitions[transition.target]) === null || _a === void 0 ? void 0 : _a.hasOwnProperty(automata_1.EPSILON_KEY))
                 states.push(transition.target);
             return states;
         }, []);
@@ -100,7 +106,8 @@ var Automata = /** @class */ (function () {
             states = [states];
         return states
             .map(function (state) {
-            var epsilonStep = transitions[state][automata_1.EPSILON_KEY];
+            var _a;
+            var epsilonStep = (_a = transitions[state]) === null || _a === void 0 ? void 0 : _a[automata_1.EPSILON_KEY];
             if (!epsilonStep)
                 return [];
             return __spreadArray(__spreadArray([], epsilonStep, true), Automata.getEpsilonClosure(epsilonStep.map(function (step) { return step.target; }), transitions), true);

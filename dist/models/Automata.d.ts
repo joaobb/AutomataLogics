@@ -13,13 +13,13 @@ declare class Automata implements IAutomata {
     testWord(word: string): {
         accepts: boolean;
         reason: string;
-        path?: undefined;
+        path: never[];
     } | {
         accepts: boolean | undefined;
         path: Path;
         reason?: undefined;
     };
-    get hasEpslonTransitions(): boolean;
+    get hasEpsilonTransitions(): boolean;
     private _walk;
     static step(stateId: StateId, symbol: InputSymbol, transitions: Transitions, hasEpsilonTransitions: Boolean): Transition[];
     static handlePossibleEpsilonTransitions(currentTransitions: Transition[], automataTransitions: Transitions): Transition[];

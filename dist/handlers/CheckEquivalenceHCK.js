@@ -43,6 +43,12 @@ function testEquivalenceHCK(a1, a2) {
             reason: { rejector: "Alphabets are different" },
         };
     }
+    if (!a1.initialState || !a2.initialState) {
+        return {
+            equivalent: false,
+            reason: { rejector: "Initial state not set" },
+        };
+    }
     var hasEpsilonSymbol = __spreadArray(__spreadArray([], a1.alphabet, true), a2.alphabet, true).includes(automata_1.EPSILON_KEY);
     // Checks if both states on the step are either acceptance or not.
     // ε(p) === ε(q) : ε(p) = 1 ⇔ ∃p′ ∈ p : ε(p′) = 1
