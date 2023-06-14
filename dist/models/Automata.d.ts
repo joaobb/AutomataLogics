@@ -11,13 +11,9 @@ declare class Automata implements IAutomata {
     acceptanceStates: StateId[];
     constructor(states: State[], alphabet: InputSymbol[], transitions: Transitions, initialState: StateId, acceptanceStates: StateId[]);
     testWord(word: string): {
-        accepts: boolean;
-        reason: string;
-        path: never[];
-    } | {
-        accepts: boolean | undefined;
+        accepts: Boolean;
+        reason?: string;
         path: Path;
-        reason?: undefined;
     };
     get hasEpsilonTransitions(): boolean;
     private _walk;

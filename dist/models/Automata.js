@@ -40,10 +40,10 @@ var Automata = /** @class */ (function () {
             return { accepts: false, reason: "No acceptance states set", path: [] };
         var steps = this._walk(word);
         return {
-            accepts: (_a = steps
+            accepts: Boolean((_a = steps
                 .at(-1)) === null || _a === void 0 ? void 0 : _a.transitions.some(function (step) {
                 return _this.acceptanceStates.includes(step.target);
-            }),
+            })),
             path: steps,
         };
     };

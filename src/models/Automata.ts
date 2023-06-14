@@ -36,7 +36,7 @@ class Automata implements IAutomata {
     this.transitions = transitions || [];
   }
 
-  testWord(word: string) {
+  testWord(word: string): { accepts: Boolean; reason?: string; path: Path } {
     const invalidSymbols = word
       .split("")
       .filter((symbol) => !this.alphabet.includes(symbol));
@@ -56,11 +56,13 @@ class Automata implements IAutomata {
     const steps: Path = this._walk(word);
 
     return {
-      accepts: steps
-        .at(-1)
-        ?.transitions.some((step) =>
-          this.acceptanceStates.includes(step.target)
-        ),
+      accepts: Boolean(
+        steps
+          .at(-1)
+          ?.transitions.some((step) =>
+            this.acceptanceStates.includes(step.target)
+          )
+      ),
       path: steps,
     };
   }
